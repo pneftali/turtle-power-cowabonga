@@ -1,0 +1,45 @@
+/*	--------------------------------------------------
+	Error Styles
+	-------------------------------------------------- */
+
+	#error-main-container { 
+		width:960px; margin:0 auto -248px; 
+		position: relative;
+		min-height: 100%;
+		height: auto !important;
+		height: 100%;
+		}
+
+	#error-header { 
+		text-align: center; 
+		padding: 25px 0; 
+		}	
+
+	#error-footer {		
+		position: relative;
+		bottom: 0;
+		width: 100%;
+		left: 0; right: 0;
+		margin: 0 auto;
+		height: 248px;
+		background: url(/images/footer-big.png) no-repeat;
+		/*
+		-webkit-background-size: 100%;
+		-moz-background-size: 100%;
+		-o-background-size: 100%;		
+		background-size: 100% 100%;
+		*/
+		}
+	#error-footer img { vertical-align: bottom; }	
+	#error-push { height: 270px; }	
+
+	#error-div {
+		text-align: center;
+		}
+
+	#error-div h2 { 
+		color: red; 
+		margin-bottom: 15px; 
+		font-size: 30px;
+		}	
+	

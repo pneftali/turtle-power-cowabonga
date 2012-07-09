@@ -1,0 +1,115 @@
+<?php 
+    $this->headTitle('GE ThxBox - It\'s so easy to say Thank You'); 
+    $this->headLink()->appendStylesheet('/styles/winner.css');
+    /*
+    $this->headLink()->appendStylesheet('http://fonts.googleapis.com/css?family=Handlee');
+    $this->headLink()->appendStylesheet('http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
+    $this->headLink()->appendStylesheet('http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here');
+    $this->headLink()->appendStylesheet('http://fonts.googleapis.com/css?family=Sunshiney');
+    $this->headLink()->appendStylesheet('http://fonts.googleapis.com/css?family=Nothing+You+Could+Do');
+    $this->headLink()->appendStylesheet('http://fonts.googleapis.com/css?family=Delius+Unicase');
+	*/
+?>
+
+<div id="winner-main-container">
+	<div id='winner-header-home'>
+		<img src="/images/ge_logo_small.png" style="float: left; position: absolute;" />
+		<a href="/" style="position:absolute; right: 55px;"><img src="/images/home_button.png" /></a>
+		<a href="/authenticate/logout" id="winner-logout">Log Out</a>
+	</div>
+
+	<div id='winner-detail-box'>
+		<div id='winner-detail-box-left'>
+			<div style="margin: 10px 0; font-size: 18px;" >
+				<div class="left">
+					<span id='' style="color: #e4853c;" class="bold">
+						<?php echo date('F', strtotime($this->profile['year'].'-'.$this->profile['month']));?>
+					</span>
+					<span><?php echo $this->profile['year']?></span>
+					Winner
+				</div>
+				<!--<img src="/images/logo_shadow.png" style="position: absolute; top: 0; left: 145px;" />-->
+			</div>	
+			<div class="clear"></div>	
+			<div id="winner-name">
+				<span id='winner-name' class="malgunbd">
+					<?php 
+					echo $this->profile['fullname'];
+					?>
+				</span>
+			</div>
+			<div>
+				<img style="float: left; width: 57px; height: 61px" src="<?php echo $this->profile['profile_img_path']; ?>" />
+				<div class='home-c1-user-stat'>
+					<ul>
+						<li class='user-stat-header'>
+							<a id='' class="" href="javascript:void(0)">
+								<span>Winner Stats</span>
+							</a>
+						</li>
+						<li>
+							<span style='color: #BB501f'>
+								<?php echo $this->profile['count'].' / '.$this->allTimeCardCount['count']; ?>
+							</span>
+						</li>
+					</ul>	
+				</div>		
+			</div>			
+		</div>
+		<div id='winner-detail-box-right'>
+			<div id='winner-detail-box-msg-top' class='winner-notes'>
+				<div id='winner_box_1' data-degree='-6deg'></div>
+				<div id='winner_box_2' data-degree='2deg'></div>
+				<div id='winner_box_3' data-degree='4deg'></div>
+			</div>
+			<div id='winner-detail-box-msg-bottom' class='winner-notes'>
+				<div id='winner_box_4' data-degree='-6deg'></div>
+				<div id='winner_box_5' data-degree='2deg'></div>
+				<div id='winner_box_6' data-degree='5deg'></div>
+			</div>
+			<div id='winner-pagination-div'>
+				<input type='image' src="/images/winner-content-back-btn.png" id='winner-content-back-btn' data-start='0' data-paging='1' />
+				<div id='winner-pagination'>
+					<ul></ul>
+				</div>
+				<input type='image' src="/images/winner-content-next-btn.png" id='winner-content-next-btn' data-start='6' data-paging='2' />
+			</div>
+		</div>
+	</div>
+	
+	<div id='winner-content-img'>
+		<div>		
+			<img src="/images/page3-img-big.png" style="vertical-align:bottom;"/>
+		</div>
+	</div>
+
+	<div id="feedback-container">
+		<a href="javascript:void(0)" id="open-feedback">
+			<img src="/images/feedback_icon.png" />
+		</a>
+		<div id='feedback-box'>
+			<a href="javascript:void(0)" id="close-feedback">x</a>
+			<!--<img src="<?php echo $this->profile->avatar_path; ?>" id='feed-box-avatar' />-->
+			<a href='javascript:void(0)' id='feed-send-btn'>
+				<img src="/images/feedback_send_btn.jpg" />
+			</a>
+			<img src="/images/loader/loading_circle.gif" id='feed-send-loading' />
+			<img src="/images/check_green.png" id='feed-send-done' />
+			<textarea id='feedback-textarea'></textarea>
+		</div>
+	</div>
+	
+</div>
+
+
+<?php
+	$this->headScript()->appendFile('/scripts/winner.js');
+?>
+
+<?php $this->headScript()->captureStart() ?>
+	var division_code = '<?php echo $this->division_code ?>';
+	var employee_code = '<?php echo $this->profile['employee_code'] ?>';
+	var totalMsgCount = '<?php echo $this->totalMsgCount ?>';
+	var winner_month  = '<?php echo $this->winner_date['month']?>';
+	var winner_year   = '<?php echo $this->winner_date['year']?>';
+<?php $this->headScript()->captureEnd() ?>

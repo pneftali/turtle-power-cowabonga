@@ -1,0 +1,32 @@
+<div id='my-thxbox' style="position: relative; margin-bottom: 25px;">
+	<img src="/images/thxboxheader_orange.png" id='orange-header' class="orange" style="margin-bottom: 10px; width: 200px; height: 58px;" />				
+	<div>
+		<div class="home-c2-user-left" style="width:170px; text-align:left;">
+			<span class="malgunbd" id='home-c2-profile-name'>
+				<?php echo htmlspecialchars($this->userDetails->full_name); ?>
+			</span>
+		</div>
+		<a href="javascript:void(0)" id="edit-profile-trigger" style="color:#EC4E09;">Edit Profile</a> 
+		<div class='clear'></div>
+	</div>
+	<div id='home-user-details-box'>
+		<div id='home-user-photo' class="home-c2-user-left">
+			<img style='vertical-align:bottom; width: 57px; height: 61px;' src="<?php echo $this->userDetails->profile_img_path; ?>" />
+		</div>
+		<div class='home-c1-user-stat'>
+			<ul>
+				<li class='user-stat-header'>
+					<a id='' class="" href="/user/<?php echo $this->userProfileLink[0]; ?>">
+						<span>See your Cards</span>
+					</a>
+				</li>
+				<li>
+					<span style='color: #BB501f' title='hey'>
+						<?php echo $this->userRankCount['count'].' / '.$this->allTimeCardsCount['count'] ?>
+					</span>	
+				</li>
+			</ul>	
+		</div>	
+		<div class='clear'></div>
+	</div>
+</div>	

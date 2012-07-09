@@ -1,0 +1,136 @@
+<?php 
+    $this->headTitle('GE ThxBox - It\'s so easy to say Thank You'); 
+    $this->headLink()->appendStylesheet('/styles/login.css');    
+?>
+
+<div id="public-main-container">
+
+<div id='public-header'>	
+	<img src="/images/ge_logo_small.png" style="float: left" />		
+	<a href="javascript:void(0)" class="link-passive signup right" id='signup'>Sign-up</a>
+	<span class="right" style="margin: 0 5px;">|</span>
+	<a href="javascript:void(0)" class="link-active right" id='signin'>Login</a>	
+</div>
+	
+<div id='public-thxbox-header'>
+	<img src="/images/logo_login.png" style='width: 127px; height: 129px;' />
+	<h3>It's so easy to say Thank You.</h3>
+</div> 
+
+<img src="/images/sun-login.png" id='sun-center' style='width: 804; height: 552px;' />
+<div id='public-sun-center'>
+	
+	<div id='public-box'>
+		<img src="/images/beta.png" style='position:absolute; right:0;' />
+		<!-- login -->
+			<div id='login-box-outer'>	
+				<form action='login' method='POST' id='login-form'>
+					<div id='input-box' class='input-box'>
+						<div>GE-mail</div>
+						<?php if(isset($this->user_email)) :?>	
+						<input type='text' placeHolder='Please enter your GE-mail' id='login-email' name='email' value='<?php echo $this->user_email; ?>' />
+						<?php else: ?>
+						<input type='text' placeHolder='Please enter your GE-mail' id='login-email' name='email' />
+						<?php endif; ?>
+						<div>Password</div>
+						<input type='password' placeHolder='Enter your password' id='login-pass' name='pass' />
+					</div>	
+					<div class="submit-box">
+						<label style='color: #888'>
+							<input type='checkbox' name='remember-me' />
+							Remember me
+						</label>
+						<span style='font-weight: bold; color: #999; position: relative; top:-2px;'>.</span>	
+						<a href='/recover'>Password help?</a>
+						<button type='submit' class="button-blue right login_span_btn" style="padding: 5px 20px 6px;" name="login" >
+							<span>Log in</span>
+						</button>			
+						<div class='clear'></div>
+					</div>
+				</form>
+			</div>
+		<!-- end login -->
+
+
+		<!-- signup -->
+			<div style='display:none;' id='signup-box-outer'>
+				<div class='input-box'>	
+					<div>full name</div>
+					<input type='text' id='signup-fullname' name='fullname' />
+					<div>email</div>
+					<input type='text' id='signup-email' name='email_signup' />
+					<div>password</div>
+					<input type='password' id='signup-pass' name='pass_signup' />
+					<div>confirm password</div>
+					<input type='password' id='signup-pass-confirm' />
+					<div><span>birthday</span>&nbsp;<span class="optional">( optional )</span></div>
+					
+					<div>
+						<select class="input-box-select" name="dob_day" id='dob_day'>
+							<option value=''>- day -</option>
+							<?php for($count=1; $count<=31; $count++): ?>
+							<option><?php echo $count; ?></option>
+							<?php endfor; ?>
+						</select>
+						<select class="input-box-select" name="dob_month" id='dob_month'>
+							<option value=''>- month -</option>
+							<?php foreach($this->month AS $key=>$val): ?>
+							<option value='<?php echo $key; ?>'><?php echo $val; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+
+					<div><span>country</span>&nbsp;<span class="optional">( optional )</span></div>
+
+					<div>
+						<select class="input-box-select" name="country" id='country' style="width: 203px;">
+							<?php 
+								$country = $this->country;												
+								foreach($country AS $key=>$val): 
+									echo "<option value='".$key."'>".$val."</option>";						
+								endforeach;	
+							?>
+						</select>
+					</div>					
+				</div>
+				<div class="submit-box">	
+					<div>
+					<input type='checkbox' id='signup-tc' style="vertical-align: middle; " />
+					<span class="bold">&nbsp;I agree to the following Terms & Conditions:</span>
+					</div>
+					<div style="margin: 10px 0;">	
+						I understand that this site is not operated by GE
+						or any of its subsidiaries, and that it was developed
+						by Arcanys for GE GG&O. Only GE employees with
+						a valid ge.com email address may signup to this system.
+						The information provided will not be used for any
+						commercial purposes. You acknowledge that you are
+						prodiving your information voluntarily.
+					</div>
+					
+					<div style="float: left;">
+						<button class="button-disabled" name="signup" id='signup-button' disabled style="padding: 8px 15px; font-size: 15px;">
+							<span>Save and Continue</span>
+						</button>
+						<img src="/images/loader/loading.gif" id='signup-loader' style="position: relative; top: 3px; left: 5px; display:none;" /> 
+					</div>
+					<div class='clear'></div>
+				</div>
+			</div>	
+		<!-- end signup -->
+	</div>
+
+</div>
+
+<div id="login-push"></div>
+</div>
+
+<div id='login-footer'></div> 
+
+<?php
+	$this->headScript()->appendFile('/scripts/plugin/jquery.placeholder.min.js');
+	$this->headScript()->appendFile('/scripts/login.js?n=1');
+	$this->headScript()->captureStart();
+?>
+	var whichIsCurrentlyDisplayed = 'login';			
+<?php $this->headScript()->captureEnd(); ?>

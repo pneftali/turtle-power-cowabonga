@@ -1,0 +1,216 @@
+<?php
+
+class Application_Form_EventsCreate extends Zend_Form
+{
+
+	private $updateMode;
+	private $existingInfo;
+	
+	public function __construct($eventId="", Application_Model_Events $existingInfo = null){
+		$this->updateMode = array();
+    	$this->updateMode["status"] = $eventId == "" ? false : true;
+    	if($this->updateMode["status"]){
+    		$this->updateMode["eventId"] = $eventId;
+	        if($existingInfo != null)
+		        $this->existingInfo = $existingInfo;
+    	}
+    	
+    	parent::__construct();
+	}
+	
+    public function init()
+    {    
+        //** Text Fields
+		$txt_title = $this->element("text", "event_title");
+		$txt_title->setLabel("Event Title")
+			->setRequired(true)
+			->addValidator("NotEmpty", false, array("messages" => "No Event title supplied."));
+		
+		$txt_details = $this->element("textarea", "event_description");
+		$txt_details->setLabel("Event Description")
+			->setAttribs(array(
+				"cols" => "45",
+				"rows" => "5",
+				"style" => "vertical-align: middle"
+			));
+				
+		$txt_address = $this->element("textarea", "event_address");
+		$txt_address->setLabel("Event Address")
+			->setAttribs(array(
+				"cols" => "45",
+				"rows" => "3",
+				"style" => "vertical-align: middle"
+			));
+			
+		$hid_geoloc = $this->element("hidden", "event_geo");
+		
+		//** Checkbox
+		$chk_nodate = $this->element("checkbox", "event_nodate");
+		$chk_nodate->setLabel("Create event with no date")
+			->setValue(false)
+			->setAttribs(array("onchange" => "if($('#event_nodate').is(':checked')){ $('.events_dateFields').parent().parent().css('display', 'none'); } else { $('.events_dateFields').parent().parent().css('display', 'table-row'); } "));
+		
+		
+		//** Select Fields ( 24 hour format for time value )
+		$timeOptions = array(
+			"0"  => "12:00 AM",
+			"1"  => "01:00 AM",
+			"2"  => "02:00 AM",
+			"3"  => "03:00 AM",
+			"4"  => "04:00 AM",
+			"5"  => "05:00 AM",
+			"6"  => "06:00 AM",
+			"7"  => "07:00 AM",
+			"8"  => "08:00 AM",
+			"9"  => "09:00 AM",
+			"10" => "10:00 AM",
+			"11" => "11:00 AM",
+			"12" => "12:00 PM",
+			"13" => "01:00 PM",
+			"14" => "02:00 PM",
+			"15" => "03:00 PM",
+			"16" => "04:00 PM",
+			"17" => "05:00 PM",
+			"18" => "06:00 PM",
+			"19" => "07:00 PM",
+			"20" => "08:00 PM",
+			"21" => "09:00 PM",
+			"22" => "10:00 PM",
+			"23" => "11:00 PM",
+		);
+		
+		$sel_start_time = $this->element("select", "event_startTime");
+		$sel_start_time->setLabel("Start Time")
+			->addMultiOptions($timeOptions)
+			->setValue("12")
+			->setAttribs(array("class" => "events_dateFields"));
+		
+		$sel_end_time = $this->element("select", "event_endTime");
+		$sel_end_time->setLabel("End Time")
+			->addMultiOptions($timeOptions)
+			->setValue("13")
+			->setAttribs(array("class" => "events_dateFields"));			
+		
+		$date_now = date("Y-m-d");
+		$date_tom = strtotime ("+1 day" , strtotime ($date_now ));
+		$txt_event_date = $this->element("text", "event_date");
+		$txt_event_date->setLabel("Event Date")
+			->setValue(date ("Y-m-d" , $date_tom))
+			->setAttribs(array("class" => "events_date_picker events_dateFields", "readonly" => "readonly"));
+		
+		$eventOptions = array();		
+		$_eventTypes = new Application_Model_Events;
+		foreach($_eventTypes->getEventTypes() as $key=>$val){
+			$eventOptions[$key] = $val;
+		}
+	
+		$sel_event_type = $this->element("select", "event_type");
+		$sel_event_type->setLabel("Event Type")
+			->addMultiOptions($eventOptions);
+			
+		$privacyOptions = array(
+				"0" => "Only Me",
+				"1" => "Friends",
+				"2" => "Public"
+		);
+		
+		$sel_privacy = $this->element("select", "event_privacy");
+		$sel_privacy->setLabel("Privacy")
+			->addMultiOptions($privacyOptions)
+			->setValue(2);   	   
+		
+		//** Buttons
+		$btn_create = $this->element("submit", "Create")->setLabel("Create");
+		$btn_cancel = $this->element("button", "Cancel")->setLabel("Cancel");
+		
+		//** Add the elements to the form
+		$this->addElements(array(
+			$txt_title,
+			$txt_details,
+			$txt_address,
+			$hid_geoloc,
+			$chk_nodate,
+			$sel_start_time,
+			$sel_end_time,
+			$txt_event_date,
+			$sel_event_type,
+			$sel_privacy,
+			$btn_cancel,
+			$btn_create
+		));
+		
+		//** Setting Decorators
+		$this->setElementDecorators(array(
+			"ViewHelper",
+			array(array("data" => "HtmlTag"), array("tag" => "td")),
+			array("Label", array("tag" => "td")),
+			array(array("row" => "HtmlTag"),array("tag" => "tr"))
+		));
+		
+		$this->setDecorators(array(
+			"FormElements",
+			array("HtmlTag", array("tag" => "table")),
+			"Form"
+			// example: array("Form", array("style" => "background:green"))
+		));
+	
+		$btn_create->setDecorators(array(
+			"ViewHelper",
+			array(array("data"=>"HtmlTag"), array("tag" => "td")),
+		));	
+		
+		$btn_cancel->setDecorators(array(
+			"ViewHelper",
+			array(array("data"=>"HtmlTag"), array("tag" => "td"))
+		));			
+
+		$hid_geoloc->removeDecorator("tr");
+		
+		$this->setMethod("post");		
+		$this->setAction(BASE_URL."events/create/step/2/");
+		
+		
+		# if updateMode
+		if($this->updateMode["status"]){
+			$txt_title->setValue($this->existingInfo->getTitle());
+			$txt_details->setValue($this->existingInfo->getDescription());
+			$txt_address->setValue($this->existingInfo->getAddress());
+			$hid_geoloc->setValue($this->existingInfo->getCoordinates());
+			
+			if($this->existingInfo->getStart("F d, Y") != "January 01, 1970")
+				$txt_event_date->setValue( $this->existingInfo->getStart("F d, Y"));
+			
+			$sel_event_type->setValue($this->existingInfo->getType());
+			$sel_privacy->setValue($this->existingInfo->getPrivacy());
+			$btn_create->setLabel("Update");
+			
+			// for the image
+			$i = $this->existingInfo->getImage();
+            if(strpos($i, "d:") !== FALSE)  	# if default image
+                $i = str_replace("d:", IMAGES_PATH, $i);
+                
+            if(strpos($i, "u:") !== FALSE)		# if uploaded image
+                $i = str_replace("u:", UPLOADS_PATH, $i);
+                
+			$this->setAction(BASE_URL."events/edit/id/".$this->updateMode["eventId"]);
+            
+            echo __executeJS("
+            	$(function(){
+    	        	$('#events_container_left_imagecontainer img').attr('src', '$i');
+	            	$('#events_container_left_imagecontainer').attr('style', '');
+            	});
+            ");
+		}
+		
+    }
+	
+	//** Custom Functions
+	
+	private function element($type, $name){
+		$type = "Zend_Form_Element_".ucfirst($type);
+		return new $type($name);
+	}
+
+
+}
+

@@ -1,0 +1,35 @@
+<?php
+
+class Application_Form_Login extends Zend_Form
+{
+
+    public function init()
+    {
+        /* Form Elements & Other Definitions Here ... */
+
+        // Set the method for the display form to POST
+        $this->setMethod('post');
+
+        // Set the action URL
+        $this->setAction('/login/process');
+
+        // Add an email element
+        $this->addElement('text', 'email', array(
+            'label'      => 'Your email address:',
+            'required'   => true,
+            'filters'    => array('StringTrim'),
+            'validators' => array(
+                'EmailAddress',
+            )
+        ));
+        
+        // Add the submit button
+        $this->addElement('submit', 'submit', array(
+            'ignore'   => true,
+            'label'    => 'Sign In',
+        ));
+    }
+
+
+}
+

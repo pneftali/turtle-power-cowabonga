@@ -1,0 +1,43 @@
+<?php 
+    $this->headTitle('GE ThxBox - It\'s so easy to say Thank You'); 
+    $this->headLink()->appendStylesheet('/styles/error.css'); 
+?>
+<div id="error-main-container">
+<div id='error-header'>
+	<div>
+		<img src="/images/logo_login.png" id='' />
+	</div>
+	<div style="padding-top: 15px; font-size: 20px;" id='header-label-two'>It's so easy to say Thank You.</div> 
+</div>	
+
+<div id='error-div'>
+<h2>Sorry, that page doesn't exist!</h2>
+<a href='/'>&larr; Home</a>
+
+
+<h1>An error occurred</h1>
+<h2><?php echo $this->message ?></h2>
+
+<?php if (isset($this->exception)): ?>
+
+<h3>Exception information:</h3>
+<p>
+  <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+</p>
+
+<h3>Stack trace:</h3>
+<pre><?php echo $this->exception->getTraceAsString() ?>
+</pre>
+
+<h3>Request Parameters:</h3>
+<pre><?php echo $this->escape(var_export($this->request->getParams(), true)) ?>
+</pre>
+
+<?php endif ?>
+
+  
+</div>	
+
+</div>
+
+<!--<div id='error-footer'></div> -->

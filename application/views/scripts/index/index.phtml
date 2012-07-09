@@ -1,0 +1,641 @@
+<?php 
+    $this->headTitle('GE ThxBox - It\'s so easy to say Thank You'); 
+    $this->headLink()->appendStylesheet("/styles/reveal.css");
+    $this->headLink()->appendStylesheet('/styles/home.css?n=1');
+    $this->headLink()->appendStylesheet("http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css");
+    $this->headLink()->appendStylesheet("http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css");    
+?>
+<style>
+	.ui-autocomplete li { border-bottom: 1px solid #CCC; }
+	.ui-autocomplete li:last-child { border-bottom: 0; }
+	.ui-autocomplete-custom-loading { background: white url('images/loader/ajax-loader.gif') center no-repeat; }
+</style>
+<div id="home-main-container">
+
+<div id='home-header'>
+	<img src="/images/ge_logo_small.png" style="float: left; width: 40px; height: 40px;" />	
+	<a href="/authenticate/logout" id="home-logout">Log Out</a>
+	<div class='clear'></div>
+</div>
+
+<div id='home-container'>
+	<!-- FIRST COLUMN -->
+	<div id='home-content-c1'>
+	<div id='home-content-c1-inner'>
+
+	<div id='my-thxbox' style="position: relative; margin-bottom: 25px;">
+		<img src="/images/thxboxheader_orange.png" id='orange-header' class="orange" style="margin-bottom: 10px; width: 200px; height: 58px;" />				
+		<div>
+			<div class="home-c2-user-left" style="width:170px; text-align:left;">
+				<span class="malgunbd" id='home-c2-profile-name'>
+					<?php echo htmlspecialchars($this->userDetails->full_name); ?>
+				</span>
+			</div>
+			
+			<a href="javascript:void(0)" id="edit-profile-trigger" style="color:#454545;">edit profile</a> 
+			<div class='clear'></div>
+		</div>
+		<div id='home-user-details-box'>
+			<div id='home-user-photo' class="home-c2-user-left">
+				<a href="/user/<?php echo $this->userProfileLink[0]; ?>">
+					<img style='vertical-align:bottom; width: 57px; height: 61px;' src="<?php echo $this->userDetails->profile_img_path; ?>" />
+				</a>
+			</div>
+			<div class='home-c1-user-stat'>
+				<ul>
+					<li class='user-stat-header'>
+						<a id='' class="" href="/user/<?php echo $this->userProfileLink[0]; ?>">
+							<span>See your Cards</span>
+						</a>
+					</li>
+					<li style='position: relative'>
+						<span style='color: #BB501f' class='rank-status-span'>
+							<?php echo $this->userRankCount['count'].' / '.$this->allTimeCardsCount['count'] ?>
+						</span>
+						<div style='z-index: 2; color: #FFF; letter-spacing: 1px; display: none; position: absolute; background: #3FD7F3; bottom: -20px; left: 65px;  padding: 5px; width: 100px;'>
+							<?php echo date('F').' / Alltime'; ?>
+						</div>	
+					</li>
+				</ul>
+				<div class='clear'></div>
+				<?php 
+					if($this->new_card_count['msg_count']):
+				?>
+				<div style="border: 1px solid #B7E3F1; background: #6FD0E2; padding: 10px; text-align: center; font-weight: bold; font-size:15px;">
+				<img src='/images/logo/thxbox_icon_small.png' style='float: left; width: 21px; height: 30px; margin-right: 5px; vertical-align: bottom;' />
+				<span style='font-size: 12px; display: block; line-height: 100%; padding-top:4px; font-weight: normal;'>
+					You've got 					
+				</span>
+				<span style='font-size: 12px; display: block; line-height: 100%; padding-top:4px; font-weight: normal;'>
+					<?php 
+					echo $this->new_card_count['msg_count']; echo ($this->new_card_count['msg_count'] > 1) ? ' new cards!' : ' new card!' 
+					?>
+				</span>
+				<div class='clear'></div>
+				</div>
+				<?php endif; ?>		
+			</div>	
+			<div class='clear'></div>
+		</div>
+	</div>	
+
+	<div id=''>
+		<div id='' class="home-headers" style='position: relative;'>
+			<span class='blue'>Sent </span>
+			<span class='blue'>Cards</span>
+			<a id='sent-cards-more' href="#">More</a>
+		</div>
+		<div id='home-recent-cards-outer' style='height: 248px; width: 260px;'>
+			<div id='home-recent-cards-div' style=''>
+			</div>
+
+			<div id='home-all-cards-div' style='width: 100%; height: 211px; visibility: hidden;'></div>
+		</div>
+	</div>	
+
+	</div>
+	</div>
+	<!-- end -->
+
+
+	<!-- SECOND COLUMN -->
+	<div id='home-content-c2'>
+		<img src="/images/divider_line.png" class='c2-divider-left' />
+		<div id='home-content-c2-inner'>
+			<div class="first-line-heading letter-space-1" style='height:30px'>				
+				<span id='home-c2-rankings-month'><?php echo date('F'); ?></span>
+				<span class='blue'>Rankings</span>
+			</div>
+			<div id='filters-div' style='font-size: 12px; margin:0; width: 285px;'>
+
+				<!--
+				<input data-filter='korea corporate' type="radio" id="radio1" name="radio" class='rankings-filter' />
+					<label for="radio1" style='width: 140px'>Korea Corporate</label>
+
+				<input data-filter='default' type="radio" id="radio2" name="radio" checked="checked" class='rankings-filter' />
+					<label for="radio2" style='width: 140px'>All Rankings</label>
+				-->
+				<!--
+				<ul>
+					<li>
+						<a href='#' data-filter='korea corporate' class='rankings-filter filter-active' >Korea Corporate</a>
+					</li>
+					<li>
+						<a href='#' data-filter='default' class='rankings-filter filter-passive'>All Rankings</a>				
+					</li>
+				</ul>
+				-->	
+				<a href='#' data-filter='korea corporate' class='rankings-filter filter-active' >
+					<span>Korea Corporate</span>
+				</a>
+				<a href='#' data-filter='default' class='rankings-filter filter-passive'>
+					<span>All Rankings</span>
+				</a>				
+			</div>
+			<div id='home-c2-rankings-table' >									
+				<ul>
+					<li style="text-align: center;">
+						<img src="/images/loader/ajax-loader.gif" />
+					</li>
+				</ul>
+			</div>		
+
+			<?php
+				if($this->winnerDetails):
+			?>
+			<div style="margin: 15px 0 10px;" class="first-line-heading letter-space-1">
+				<span id='home-c1-winner-month'>
+					<?php 
+						echo date('F', strtotime($this->winnerDetails['year'].'-'.$this->winnerDetails['month']));
+					?>
+				</span>
+				<span class='blue'> Winner</span>				
+			</div>
+
+			<div>
+				<span class="malgunbd" id='home-c1-winner-name' ><?php echo $this->winnerDetails['fullname']; ?></span>
+			</div>
+			<div id='home-winner-top-details'>	
+				<a id='' class="" href='/winner/<?php echo $this->winnerDetails['month']?>/<?php echo $this->winnerDetails['year']?>'>			
+					<img src="<?php echo $this->winnerDetails['profile_img_path']; ?>" />
+				</a>
+				<div class='home-c1-user-stat'>
+					<ul>
+						<li class='user-stat-header'>
+							<a id='' class="" href='/winner/<?php echo $this->winnerDetails['month']?>/<?php echo $this->winnerDetails['year']?>'>
+								<span>Winner Cards</span>
+							</a>
+						</li>
+						<li style='position: relative'>
+						<span style='color: #BB501f' class='rank-status-span'>
+								<?php echo $this->winnerDetails['count'].' / '.$this->winnerTotalCardCount['count'] ?>
+							</span>	
+							<div style='z-index: 2; color: #FFF; letter-spacing: 1px; display: none; position: absolute; background: #3FD7F3; bottom: -20px; left: 65px;  padding: 5px; width: 100px;'>
+							<?php echo date('F', strtotime('-1 month')).' / Alltime'; ?>
+						</div>	
+						</li>
+					</ul>	
+				</div>
+				<div class='clear'></div>
+			</div>				
+			<?php endif; ?>
+
+			<button id="home-past-winners-btn" class="past-winners-default" style=''>	
+			</button>				
+		</div>
+		<img src="/images/divider_line.png" class='c2-divider-right' />
+	</div>
+	<!-- end -->
+
+
+	<!-- THIRD COLUMN -->
+	<div id='home-content-c3'>		
+		<div id='home-content-c3-inner'>
+			<div id='home-header-c3'>
+				<span class="home-headers blue">Send a</span>
+				<span class="home-headers blue" style="">Card</span>		
+			</div>	
+			<!--
+			<div class="letter-space-1" style="padding-top: 45px; font-size: 16px;">
+				<span id='home-c3-span4'><?php //echo date('F Y'); ?></span>
+			</div>		
+			<div class="bold" style="color: #000; margin: 5px 0;">
+				<span id='home-c3-span1'>Send</span> 
+				<span style="color: #666">your</span>
+				<span style="color: #E085FF">Card</span>
+				<span>to a friend.</span>
+			</div>				
+			<div id='home-c3-box-imgs'></div>
+			-->
+			<div id='home-c3-input-name' class="ui-widget">
+				<input type='text' placeHolder='GE-mail or Name' id="search-name" data-employeeCodeFrom=<?php echo $this->userDetails->employee_code ?> />
+			</div>
+			<div id='home-c3-autocomplete-box'></div>
+			<div id='home-c3-textarea'>
+				<textarea placeHolder='I appreciate you because...' id='text-area'></textarea>
+			</div>			
+			<span style='font-size: 11px;'>You have <span id='msg_count'>140</span> characters left.</span>
+			<button id='generate-comment-btn' class='generate-msg-default'>
+			</button>								
+			<div class="home-c3-response-to-msg">
+				<div id="home-c3-response-close">
+					<a href="javascript:void(0)">&#215;</a>
+				</div>					
+				<div id="home-c3-response-msg"></div>
+				<div class='clear'></div>
+			</div>
+			<div id='home-c3-send-btn' style='margin: 15px 0 10px; position: relative;'>								
+				<label for='c3-hide-cb' style="font-size: 11px; vertical-align: bottom; float: left;">
+					<input type='checkbox' id='c3-hide-cb' style="float:none; margin-right: 3px;">
+					Send an Anonymous Card
+				</label>
+				<button id='home-post-message' class="button-disabled" disabled >
+					<span>Send!</span>	
+				</button>				
+				<div id='coin-div'>
+					<span id='msg-counter'><?php echo $this->userMessageCount['count']; ?></span>
+				</div>
+				<!--<img src="/images/loader/loading.gif" id='home-c3-msg-loader'/>-->
+				<div class='clear'></div>
+			</div>
+
+			<div id='home-display-birthday-box'>
+				<div id='home-birthday-heading' class="">
+					<span class='blue'>Birthdays</span>
+				</div>
+				<div>
+					<ul id='home-display-birthday-ul'>
+						<li style="text-align: center;"><img src="/images/loader/ajax-loader.gif" /></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end -->
+</div>
+
+<div id="home-push" class='clear'></div>
+</div>
+<div id='home-footer'></div> 
+
+<!-- DISPLAY PAST WINNERS -->
+<div id='home-list-past-winners' class='reveal-modal'>
+	<img src="/images/loader/ajax-loader.gif" id='home-c2-overlay-loading-past-winners' />
+	<ul></ul>
+	<a class="close-reveal-modal close-reveal close-red">&#215;</a>
+</div>
+
+<!-- FEEDBACK -->
+<div id="feedback-container">
+	<a href="javascript:void(0)" id="open-feedback">
+		<img src="/images/feedback_icon.png" />
+	</a>
+	<div id='feedback-box'>
+		<a href="javascript:void(0)" id="close-feedback">x</a>
+		<img src="<?php echo $this->userDetails->avatar_path; ?>" id='feed-box-avatar' />
+		<a href='javascript:void(0)' id='feed-send-btn'>
+			<img src="/images/feedback_send_btn.jpg" />
+		</a>
+		<img src="/images/loader/loading_circle.gif" id='feed-send-loading' />
+		<img src="/images/check_green.png" id='feed-send-done' />
+		<textarea id='feedback-textarea'></textarea>
+	</div>
+</div>
+<!-- end -->
+
+<!-- INITIAL PIC UPLOAD -->
+<div id='upload-pic-modal' class="reveal-modal upload-profile-reveal-modal">
+	<h1>Set your profile picture</h1>
+	<div class="" id='home-upload-profile-pic'>
+    	<div class='home-c2-edit-upload-view' style="float: left; margin:0 10px 0 0; height: 80px; width: 90px;">
+    		<img src="<?php echo $this->userDetails->profile_img_path; ?>" />
+    	</div>
+    	<div id='' class="" style="float: left; width: 260px;">    		    		
+			<span style="font-size: 11px; color: #777;">Select an image file on your computer (1mb max):</span>
+    		<form id="initial-upload-form" method="post" enctype="multipart/form-data" action='/upload/upload-file'>	
+				<input type="file" name="file" value="Choose image" id="initial-upload" class="" style="width: 180px" />
+			</form>	
+			<div style="margin: 15px 0; width: 200px; float: left; border-top: 1px solid #888; position: relative;">
+				<span style="position:absolute; top: -9px; right: 100px; background: #EEE; color: #777;">or</span>
+			</div>
+			<div class='clear'></div>
+			<span style="margin-right: 40px; font-size: 20px; color: #000;">Choose an avatar:</span>
+			<!--
+				<select id="initial-avatar-pick" style="float: left;" disabled>
+					<option value="default.png">- default -</option>
+					<option value="female1.png">female 1</option>
+					<option value="female2.png">female 2</option>
+					<option value="female3.png">female 3</option>
+					<option value="male1.png">male 1</option>
+					<option value="male2.png">male 2</option>
+					<option value="male3.png">male 3</option>
+					<option value="male4.png">male 4</option>
+					<option value="male5.png">male 5</option>
+				</select>
+			-->	
+		</div> 
+    </div>	    
+    <div class='clear'></div>
+    <div class='edit-profile-avatar-div' style='margin-top: 15px'>
+		<ul>
+			<li>
+				<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='default.png'>
+					<img src='/images/avatar/default.png' />
+				</a>
+			</li>
+			<li>
+				<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='female3.png'>
+					<img src='/images/avatar/lady1.png' />
+				</a>
+			</li>
+			<li>
+				<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='female1.png'>
+					<img src='/images/avatar/lady2.png' />
+				</a>
+			</li>
+			<li>
+				<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='female2.png'>
+					<img src='/images/avatar/lady3.png' />
+				</a>
+			</li>
+			<li>
+				<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='male4.png'>
+					<img src='/images/avatar/man1.png' />
+				</a>
+			</li>
+			<li>
+				<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='male1.png'>
+					<img src='/images/avatar/man2.png' />
+				</a>
+			</li>
+			<li>
+				<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='male3.png'>
+					<img src='/images/avatar/man3.png' />
+				</a>
+			</li>
+			<!--
+			<li><input type='radio' name='avatar' /><img src='/images/avatar/lady1.png' /></li>
+			<li><input type='radio' name='avatar' /><img src='/images/avatar/lady2.png' /></li>
+			<li><input type='radio' name='avatar' /><img src='/images/avatar/lady3.png' /></li>
+			<li><input type='radio' name='avatar' /><img src='/images/avatar/man1.png' /></li>
+			<li><input type='radio' name='avatar' /><img src='/images/avatar/man2.png' /></li>
+			<li><input type='radio' name='avatar' /><img src='/images/avatar/man3.png' /></li>
+			-->
+		</ul>
+	</div>
+    <div id='upload-profile-pic-skip-div'>
+    	<img src="/images/loader/loading.gif" class='home-c2-upload-loader' />
+    	<button class="button-gray close-reveal" style="width: 100px; margin-right:5px;" id='initial-pic-upload-btn'>
+			<span>Save</span>	
+		</button>
+    	<a href='javascript:void(0)' class='close-reveal' style="position:relative; top:5px;">Set my profile pic later</a>
+    </div>
+	<a class="close-reveal-modal close-reveal">&#215;</a>
+</div>	
+<!-- end -->
+
+<!-- TIMEOUT -->
+<div id='timeout-modal-div' class='reveal-modal'>
+	<div id='timeout-modal'>
+		<img style='float:left' src='/images/timeout_circle.png' />
+		<span>Connection timeout error!</span> 
+	</div>
+	<a class="close-reveal-modal close-reveal close-red">&#215;</a>
+</div>	
+<!-- end -->
+
+<!-- BIRTHDAY -->
+<div id='show-all-birthday-modal' class='reveal-modal'>
+	<div id='' class="home-headers" style="border-bottom: 1px solid #DDD; padding-bottom: 10px">
+		<span class='blue'><?php echo date('F Y'); ?></span>
+		<span style='color: #888'>Birthdays</span>
+	</div>
+	<div id='birthday-modal'>
+		<ul id='modal-display-birthday-ul'></ul>
+	</div>	
+	<a class="close-reveal-modal close-reveal close-red">&#215;</a>
+</div>	
+<!-- end -->
+
+<!-- EDIT PROFILE -->
+<div id="myModal" class="reveal-modal" style='top: 50px'> 
+	<div id='edit-header-bg'></div>
+		<div id='edit-profile-outer'>
+			<div id='edit-outer-box'>
+			    <div class="left" id="home-c2-edit-profile" style='font-size:12px;'>	    	
+			    	<form id='edit-profile-form'>
+			    	<div>full name</div>
+		    		<input type="text" id='edit-fullname' name="edit_name" value="<?php echo $this->userDetails->full_name; ?>" />   
+			    	<div>birthday <span class="optional">( optional )</span></div>
+					<select class="input-box-select" name="edit_birthday_day">					
+						<?php 
+							if( $this->userDetails->dob === '0000-00-00' ){
+								echo "<option value=''>- day -</option>";
+								for($count=1; $count<=31; $count++)
+									echo "<option>".$count."</option>";
+							} else {
+								$dob_day = date('j', strtotime($this->userDetails->dob));
+								for($count=1; $count<=31; $count++): 
+								if($count == $dob_day){
+									echo "<option selected>".$count."</option>";
+								} else{
+									echo "<option>".$count."</option>";
+								}
+								endfor;	
+							}
+						?>
+					</select>
+					<select class="input-box-select" name="edit_birthday_month">
+						<?php 
+							if( $this->userDetails->dob === '0000-00-00' ){
+								foreach($this->month AS $key=>$val) 
+									echo "<option value=".$key.">".$val."</option>";
+							} else {	
+								$dob_month = date('M', strtotime($this->userDetails->dob));
+								foreach($this->month AS $key=>$val): 
+								if($val == $dob_month){
+									echo "<option value=".$key." selected>".$val."</option>";
+								} else{
+									echo "<option value=".$key.">".$val."</option>";
+								}
+								endforeach;	
+							}
+						?>
+					</select>
+					<div>country <span class="optional">( optional )</span></div>					
+					<select class="input-box-select" name="country" id="edit-country" style="width: 203px;">
+						<?php 
+							$country = $this->country;												
+							foreach($country AS $key=>$val): 
+
+								if($key == $this->userDetails->country){
+									echo "<option value='".$key."' selected>".$val."</option>";
+								} else {
+									echo "<option value='".$key."'>".$val."</option>";
+								}
+
+							endforeach;	
+						?>
+					</select>
+					<div>business unit</div>
+					<select class="input-box-select" name="business_unit" id="edit-business-unit" style="width: 203px;">
+						<option value='0'>- select -</option>
+						<?php 
+							$business = $this->business_unit;												
+							foreach($business AS $key=>$val): 
+
+								if($val['id'] == $this->userDetails->business_unit_code){
+									echo "<option value='".$val['id']."' selected>".$val['name']."</option>";
+								} else {
+									echo "<option value='".$val['id']."'>".$val['name']."</option>";
+								}
+
+							endforeach;		
+						?>
+					</select>
+					<div>department</div>
+					<select class="input-box-select" name="department" id="edit-department" style="width: 203px;">
+						<option value='0'>- select -</option>
+						<?php 
+							$department = $this->department;												
+							foreach($department AS $key=>$val): 
+
+								if($val['id'] == $this->userDetails->department_code){
+									echo "<option value='".$val['id']."' selected>".$val['name']."</option>";
+								} else {
+									echo "<option value='".$val['id']."'>".$val['name']."</option>";
+								}
+
+							endforeach;		
+						?>
+					</select>
+					</form>
+			    </div>
+			    <div class="left">	    	
+			    	<div class='home-c2-edit-upload-view'>
+			    		<img src="<?php echo $this->userDetails->profile_img_path; ?>" />
+			    	</div>
+			    	<div id='home-c2-edit-upload' class="left">			    		
+				    	<span style='font-size: 11px; color: #555; margin-right: 55px;'>Select an image (1mb max):</span>
+			    		<form id="imageform" method="post" enctype="multipart/form-data" action='/upload/upload-file'>	    		
+			    			<img src="/images/loader/loading.gif" class='home-c2-upload-loader' />
+							<input type="file" name="file" value="Choose image" id="file" class="" style="width: 180px" />			
+						</form>
+
+						<div style="margin: 15px 0; width: 200px; float: right; border-top: 1px solid #888; position: relative;">
+							<span style="position:absolute; top: -9px; right: 100px; background: #FFF; color: #777;">or</span>
+						</div>
+						<div class='clear'></div>
+						<div>
+							<span style="margin-right: 40px; font-size: 20px; color: #000;">Choose Avatar</span>
+						</div>
+						<!--
+						<select id="avatar-pick">
+							<option value="default.jpg">- default -</option>
+							<option value="female1.png">female 1</option>
+							<option value="female2.png">female 2</option>
+							<option value="female3.png">female 3</option>
+							<option value="male1.png">male 1</option>
+							<option value="male2.png">male 2</option>
+							<option value="male3.png">male 3</option>
+							<option value="male4.png">male 4</option>
+							<option value="male5.png">male 5</option>
+						</select> 
+						-->						
+					</div> 			
+			    </div>
+			    <div class='clear'></div>
+			</div>
+			<div class='edit-profile-avatar-div'>
+				<ul>
+					<li>
+						<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='default.png'>
+							<img src='/images/avatar/default.png' />
+						</a>
+					</li>
+					<li>
+						<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='female3.png'>
+							<img src='/images/avatar/lady1.png' />
+						</a>
+					</li>
+					<li>
+						<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='female1.png'>
+							<img src='/images/avatar/lady2.png' />
+						</a>
+					</li>
+					<li>
+						<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='female2.png'>
+							<img src='/images/avatar/lady3.png' />
+						</a>
+					</li>
+					<li>
+						<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='male4.png'>
+							<img src='/images/avatar/man1.png' />
+						</a>
+					</li>
+					<li>
+						<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='male1.png'>
+							<img src='/images/avatar/man2.png' />
+						</a>
+					</li>
+					<li>
+						<a title='Select this avatar' href='javascript:void(0)' class='avatar-options-a' data-path='male3.png'>
+							<img src='/images/avatar/man3.png' />
+						</a>
+					</li>
+					<!--
+					<li><input type='radio' name='avatar' /><img src='/images/avatar/lady1.png' /></li>
+					<li><input type='radio' name='avatar' /><img src='/images/avatar/lady2.png' /></li>
+					<li><input type='radio' name='avatar' /><img src='/images/avatar/lady3.png' /></li>
+					<li><input type='radio' name='avatar' /><img src='/images/avatar/man1.png' /></li>
+					<li><input type='radio' name='avatar' /><img src='/images/avatar/man2.png' /></li>
+					<li><input type='radio' name='avatar' /><img src='/images/avatar/man3.png' /></li>
+					-->
+				</ul>
+			</div>
+			<div class="clear"></div>
+
+			<div class='edit-footer-bg'>
+				<div id='home-c2-edit-save' class="left">
+					<img src="/images/loader/loading.gif" id='home-c2-edit-loader' />
+					<button class="button-gray" style="width: 100px" id='edit-profile-btn'>
+						<span>Save</span>	
+					</button>
+					<button class="button-gray close-reveal" style="width: 100px" id='edit-profile-btn-cancel'>
+						<span>Cancel</span>	
+					</button>
+
+				</div>		
+				<a href="javascript:void(0)" id='edit-profile-password' style="color:#EC4E09; font-size: 12px; position: absolute; top:26px; right: 20px">Edit Password &rarr;</a>
+				<div class="clear"></div>
+			</div>
+		</div>		
+    <a class="close-reveal-modal close-reveal">&#215;</a>
+</div>
+<!-- end -->
+
+<!-- SHOW ALL CARDS -->
+<div id='show-all-cards' class="reveal-modal">
+	<div id='' class="home-headers" style="border-bottom: 1px solid #DDD; padding-bottom: 10px">
+		<span class='blue'>Sent </span>
+		<span style='color: #888'>Cards</span>
+	</div>
+	<div id='cards-modal'>
+	</div>	
+	<a class="close-reveal-modal close-reveal close-red">&#215;</a>
+</div>
+<!-- end -->
+
+
+
+<?php
+	$this->headScript()->appendFile('/scripts/ZeroClipboard.js');	
+	$this->headScript()->appendFile('/scripts/plugin/jquery.reveal.js');
+	$this->headScript()->appendFile('/scripts/plugin/jquery.loading.js');
+	$this->headScript()->appendFile('/scripts/plugin/jquery.form.js');
+	$this->headScript()->appendFile('/scripts/plugin/jquery.placeholder.min.js');
+	$this->headScript()->appendFile('/scripts/home.js?n=1');
+?>
+
+<?php $this->headScript()->captureStart() ?>
+	var resetPassStatus	= '<?php echo $this->resetPassStatus['reset_pass_status']?>';
+	var baseURL			= '<?php echo $_SERVER['HTTP_HOST']?>';
+	var department_code	= '<?php echo $this->userDetails->department_code ?>';
+	var user_email		= '<?php echo $this->userDetails->email ?>';
+	var message_count	= '<?php echo $this->userMessageCount['count'] ?>';
+	var count_date		= '<?php echo date('F Y') ?>';
+	var curr_time_iso	= '<?php echo $this->curr_microtome ?>';
+
+	var hasSignedUp		= false;
+	<?php 
+		$ns = new Zend_Session_Namespace('show_edit_profile');
+		if(isset($ns->hasConfirmed) && $ns->hasConfirmed): 
+	?>			
+		hasSignedUp = true;
+	<?php 
+		$ns->hasConfirmed = 0;
+		endif; 
+	?>	
+			
+<?php $this->headScript()->captureEnd() ?>
+

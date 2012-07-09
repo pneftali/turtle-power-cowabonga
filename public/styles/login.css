@@ -1,0 +1,251 @@
+/*	--------------------------------------------------
+	Login Box
+	-------------------------------------------------- */
+
+	
+
+	#public-main-container { 
+		width:960px; margin:0 auto -248px; 
+		position: relative;
+		min-height: 100%;
+		height: auto !important;
+		height: 100%;
+		}
+
+	#public-header { 
+		text-align: center; 
+		padding-top: 25px;
+		color: #144764;
+		position: fixed;
+		font-size: 13px;
+		width: 960px;
+		z-index: 1;
+		}
+ 	
+ 	#public-thxbox-header {
+ 		padding-top: 25px; 
+ 		text-align: center;
+ 		}
+
+ 	#login-thxbox-header h3 {
+ 		font-size: 18px;
+ 		font-weight: normal;
+ 		}	
+
+ 	#sun-center { 
+		position: absolute;
+		z-index: -1;
+		top: 10px;
+		left: 89px; 
+		}
+			
+ 	#public-sun-center { 
+		position: relative;
+		top: 25px;
+		}	
+
+	#public-box { 
+		width: 340px; 
+		margin: 0 auto;	 
+		background: #FFFFFF;
+		border: 1px solid #CCC;
+		overflow: hidden;
+		font-size: 12px;
+		position: relative;
+
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		}
+
+
+
+/*	--------------------------------------------------
+	Inside Login & Signup Box
+	-------------------------------------------------- */
+	.input-box { 
+		width: 100%; margin: 0 auto;
+		padding: 25px 20px 10px; 
+		background: #fefefe;
+		}
+	.submit-box {
+		width: 100%; margin: 0 auto;
+		border-top: 1px solid #FFF;
+		padding: 15px 20px;
+		background: #EEE;
+		font-size: 12px; 	
+		}		
+
+
+
+/*	--------------------------------------------------
+	Error messages
+	-------------------------------------------------- */
+	.login-error-box { position: relative; }
+	.login-error-box a.login-error-close { 
+		color: #BD0C09;
+		text-decoration: none;
+		font-size: 25px;
+		font-weight: bolder;
+		position: absolute;
+		top: 3px;
+		left: 280px;		
+		}
+	.login-error-box a.login-error-close:hover { 
+		cursor: pointer; 
+		color: #D10E0A;
+		}
+	.error-msg-div { 
+		border: 1px solid #BA1904;
+		padding: 5px 10px;
+		font-size: 11px;
+		color: #000;
+		background: #F5C1BA;
+		position: relative;
+		top: 10px;
+		width: 90%;
+		margin: 0 auto;
+		z-index: 99999;
+
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+
+		-webkit-box-shadow: 0 2px 4px rgba(0,0,0,.25);
+		-moz-box-shadow: 0 2px 4px rgba(0,0,0,.25);
+		box-shadow: 0 2px 4px rgba(0,0,0,.25);
+		}
+	.error-msg-div span	{ text-shadow: 0 -1px 0 rgba(0, 0, 0, .05); }
+	.error-msg-content {
+		position: relative;
+		top: 10px;
+		width: 300px;
+		margin: 0 auto;
+		font-size: 11px;
+		color: #DDD;
+		}
+
+
+	.placeholder { color: #AAA; }	
+
+		
+
+	#login-header h3 { font-size: 100%; }
+	#login-box-submit input[type='image'],
+	#signup-box-submit input[type='image'] { float: right; }
+	
+	#login-box-submit input[type='checkbox'] { vertical-align: middle; }
+
+	
+
+	
+
+	#login-ge-logo { 
+		position: absolute; 
+		top: -70px; 
+		left: 185px; 
+		}
+
+	
+
+	.signup-success-div{
+		width: 100%; 
+		margin: 0 auto; 
+		
+		padding: 20px; 
+		background: #FFFFFF;
+
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		}	
+
+	.success{
+		border: 1px solid #30705E;
+		background: #C9F7EA;
+		padding: 10px;
+		}
+			
+
+	.login_span_btn, .signup_span_btn { 
+		font-size: 15px;
+		text-shadow: 0 -1px 0 rgba(0, 0, 0, .42);
+		}
+
+	
+	
+	
+	#input-box-login { font-size: 13px;}	
+	.input-box input[type='text'], .input-box input[type='password'] { 
+		width: 100%; /*height: 25px;*/ margin: 3px 0 10px 0; border: 1px solid #CCC;
+		padding: 6px;
+		font-size: 15px; 
+
+		-webkit-border-radius: 2px;
+		-moz-border-radius: 2px;
+		border-radius: 2px;
+		}
+	.input-box select {
+		margin: 5px 0 10px 0;		
+		}
+	.input-box-select{
+
+		height: 28px;
+		border: 1px solid #BDC7D8;
+		font-size: 12px;
+		padding: 5px;
+		width: 100px;
+		background: #DDD;
+		}	
+	.input-box-selects{		
+		width: 100px;
+		font-size: 13px;
+		}		
+	.optional {
+		font-style: italic;
+		color: #CCC;
+		font-size: 12px;
+		}		
+	
+	#login-footer {		
+		position: relative;
+		bottom: 0;
+		width: 100%;
+		left: 0; right: 0;
+		margin: 0 auto;
+		height: 248px;
+		background: url(/images/footer-big.png) no-repeat;
+		/*
+		-webkit-background-size: 100%;
+		-moz-background-size: 100%;
+		-o-background-size: 100%;		
+		background-size: 100% 100%;
+		*/
+		}
+	#login-footer img { vertical-align: bottom; }	
+	#login-push { height: 270px; }
+
+	#signup-container {
+		
+		}
+	.signup-container {
+		width:340px; margin:0 auto; border:1px solid #CCC; height: 600px;
+		background: #FFF;
+
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		}
+	.login-container {
+		width:340px; margin:0 auto; border:1px solid #CCC; height: 238px;
+		background: #FFF;
+
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		}	
+
+
+	
+
+

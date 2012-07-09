@@ -1,0 +1,50 @@
+<?php 
+    $this->headTitle('GE ThxBox - It\'s so easy to say Thank You'); 
+    $this->headLink()->appendStylesheet('/styles/recover.css'); 
+?>
+<div id="recover-main-container">
+	<div id='recover-header'>
+		<img src="/images/ge_logo_small.png" style="float: left" />		
+		<a href="/login" class="" id='' style='float: right;'>Home &rarr;</a>
+	</div>	
+	<div id='public-thxbox-header'>
+		<img src="/images/logo_login.png"  style='width: 126px; height: 128px;' />
+		<h3>It's so easy to say Thank You.</h3>
+	</div> 
+		
+	<div id='recover-box'>
+		<div id='recover-box-main'>
+			<h3 style="color: #777; padding-bottom:5px; margin-bottom:20px; border-bottom: 1px solid #CCC;">
+				Forgot Password ?
+			</h3>
+			
+			<div id='recover-error-box' style="display:none;">
+				<div class='recover-msg-div'>
+					<span></span>
+					<a href='#' class='recover-error-close'>&#215;</a>
+				</div>
+			</div>
+
+
+			<div>Account email address</div>			
+			<input type='text' id='recover-email' name='email' />			
+
+			<div id='login-box-submit'>
+				<button class="button-blue right" style="padding: 5px 20px 6px; width: 100%;" id="recover-htn">
+					<span class="recover_span_btn">Reset Password</span>
+				</button>
+				<div class='clear'></div>
+			</div>
+		</div>
+	</div>	
+
+
+	<div id="recover-push"></div>
+</div>
+
+<div id='recover-footer'></div> 
+
+
+<?php
+	$this->headScript()->appendFile('/scripts/recover.js?n='.time());
+?>
